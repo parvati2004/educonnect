@@ -40,11 +40,13 @@ const isTeacher = (req, res, next) => {
 
 // Allow only students
 const isStudent = (req, res, next) => {
+  console.log("User role:", req.user?.role); // <-- add this
   if (req.user && req.user.role === "student") {
     next();
   } else {
     res.status(403).json({ message: "Access denied. Student only." });
   }
 };
+
 
 export { protect, isTeacher, isStudent };

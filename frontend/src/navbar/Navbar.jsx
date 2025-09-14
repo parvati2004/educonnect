@@ -1,65 +1,30 @@
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
-  const navigate = useNavigate();
-  const username = localStorage.getItem("username");
-  const role = localStorage.getItem("role");
-  const token = localStorage.getItem("token");
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("username");
-    navigate("/login");
-  };
-
+const Navbar = ({ user }) => {
   return (
-    <nav className="bg-blue-700 text-white px-6 py-3 flex justify-between items-center shadow-md">
-      {/* Logo */}
-      <Link to="/" className="text-2xl font-bold tracking-wide">
-        EduConnect
-      </Link>
+    <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <div className="font-bold text-xl">EduConnect</div>
+      <div className="space-x-4">
+        <Link to="/home">Home</Link>
+        <Link to="/homeworklist">Homework List</Link>
 
-      {/* Dynamic Links */}
-      <div className="space-x-6 flex items-center">
-        <Link to="/">Home</Link>
-
-        {/* Guest Links */}
-        {!token && (
+        {user?.role === "student" && (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/latesthomework">Latest Homework</Link>
+            <Link to="/hmupload">Upload Homework</Link>
+            <Link to="/mysubmission">My Submissions</Link>
           </>
         )}
 
-        {/* Teacher Links */}
-        {token && role === "teacher" && (
+        {user?.role === "teacher" && (
           <>
-            <Link to="/create-homework">Create Homework</Link>
-            <Link to="/submissions">Submissions</Link>
+            <Link to="/createhomework">Create Homework</Link>
+            <Link to="/allsubmission">All Submissions</Link>
           </>
         )}
 
-        {/* Student Links */}
-        {token && role === "student" && (
-          <>
-            <Link to="/homeworks">Homework</Link>
-            <Link to="/my-submissions">My Submissions</Link>
-          </>
-        )}
-
-        {/* User Info + Logout */}
-        {token && (
-          <>
-            <span className="font-semibold">Hi, {username || "User"}</span>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded transition"
-            >
-              Logout
-            </button>
-          </>
-        )}
+        <Link to="/login">Logout</Link>
       </div>
     </nav>
   );

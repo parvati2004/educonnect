@@ -1,12 +1,10 @@
-// src/api/submissions.js
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/submissions"; // adjust if backend deployed
+const API_URL = "http://localhost:5000/api/submissions";
 
-// ✅ Submit homework (with file)
-export const submitHomework = async (homeworkId, file, token) => {
-  const formData = new FormData();
-  formData.append("file", file);
+// ✅ Submit homework (with FormData)
+export const submitHomework = async (homeworkId, formData) => {
+  const token = localStorage.getItem("token");
 
   try {
     const res = await axios.post(`${API_URL}/${homeworkId}`, formData, {
@@ -24,32 +22,29 @@ export const submitHomework = async (homeworkId, file, token) => {
 
 // ✅ Get current user's submissions
 export const getMySubmissions = async () => {
-  const token = localStorage.getItem("token"); // assuming token is stored here
+  const token = localStorage.getItem("token");
   try {
     const res = await axios.get(`${API_URL}/mine`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
-    return res.data; // res.data should be an array of submissions
+    return res.data;
   } catch (err) {
     console.error("Error fetching submissions:", err.response?.data || err.message);
     throw err;
   }
 };
 
-// ✅ Get all submissions (for admin/teacher)
+// ✅ Get all submissions (for teacher/admin)
 export const getSubmissions = async () => {
-  const token = localStorage.getItem("token"); // assuming token is stored
+  const token = localStorage.getItem("token");
   try {
     const res = await axios.get(`${API_URL}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
-    return res.data; // res.data should be an array of all submissions
+    return res.data;
   } catch (err) {
     console.error("Error fetching all submissions:", err.response?.data || err.message);
     throw err;
   }
 };
+

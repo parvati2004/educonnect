@@ -5,8 +5,9 @@ import upload from "../config/multerCloudinary.js";
 
 const router = express.Router();
 
-router.post("/:homeworkId", protect, isStudent, upload.single("file"), submitHomework);
-router.get("/:homeworkId", protect, isTeacher, getSubmissions);
-router.get("/student/:homeworkId", protect, isStudent, getMySubmission);
+router.post("/:homeworkId/submit", protect, isStudent, upload.single("file"), submitHomework);
+router.get("/", protect, isTeacher, getSubmissions);
+router.get("/mine", protect, isStudent, getMySubmission);
+
 
 export default router;
