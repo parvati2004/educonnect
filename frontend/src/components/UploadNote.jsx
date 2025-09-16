@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { uploadNote } from "../api/notes";
+import { toast } from "react-toastify";
 
-const CreateHomework = () => {
+const UploadNote = () => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const [subject, setSubject] = useState("");
   const [file, setFile] = useState(null);
   const [user, setUser] = useState(null);
 
@@ -18,34 +17,27 @@ const CreateHomework = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!file) return toast.error("❌ Please select a file");
 
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("description", description);
-    formData.append("deadline", deadline);
-    if (file) formData.append("file", file);
+    formData.append("subject", subject);
+    formData.append("file", file);
 
     try {
-      const res = await fetch("http://localhost:5000/api/homework/create", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+      const res = await uploadNote(formData, token);
 
-      const data = await res.json();
-
-      if (res.ok) {
-        toast.success("✅ Homework created successfully!");
+      if (res.status === 200) {
+        toast.success("✅ Note uploaded successfully!");
         setTitle("");
-        setDescription("");
-        setDeadline("");
+        setSubject("");
         setFile(null);
       } else {
-        toast.error(`❌ ${data.message || "Failed to create homework"}`);
+        toast.error("❌ Failed to upload note");
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("❌ Error creating homework");
+    } catch (error) {
+      console.error(error);
+      toast.error("❌ Error uploading note");
     }
   };
 
@@ -61,7 +53,7 @@ const CreateHomework = () => {
   return (
     <div className="p-4 max-w-md mx-auto mt-10">
       <div className="bg-white shadow-lg rounded-xl p-6 md:p-8">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">📘 Create Homework</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">📄 Upload Note</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
@@ -71,39 +63,30 @@ const CreateHomework = () => {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-          <textarea
-            placeholder="Description"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={4}
-            required
-          />
           <input
-            type="date"
+            type="text"
+            placeholder="Subject"
             className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
             required
           />
           <input
             type="file"
             className="w-full text-gray-700"
             onChange={(e) => setFile(e.target.files[0])}
+            required
           />
           <button
             type="submit"
             className="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg"
           >
-            Create Homework
+            Upload Note
           </button>
         </form>
       </div>
-
-      {/* Toast container for success/error messages */}
-      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };
 
-export default CreateHomework;
+export default UploadNote;

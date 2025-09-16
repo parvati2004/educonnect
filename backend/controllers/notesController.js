@@ -4,7 +4,7 @@ import Note from "../models/Note.js";
 export const uploadNote = async (req, res) => {
   try {
     const { title, subject } = req.body;
-    const fileUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const fileUrl = req.file?.path; // Cloudinary gives secure URL in `path`
 
     if (!fileUrl) return res.status(400).json({ message: "File required" });
 

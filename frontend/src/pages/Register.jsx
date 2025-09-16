@@ -35,48 +35,82 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ backgroundColor: "#c8d8e4" }}
+    >
       <form
         onSubmit={handleRegister}
-        className="bg-white p-8 rounded shadow-md w-96"
+        className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-full max-w-md"
       >
-        <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {/* Title */}
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-blue-800">
+          Create Account
+        </h1>
+
+        {/* Error message */}
+        {error && (
+          <p className="text-red-500 mb-4 text-center font-medium">{error}</p>
+        )}
+
+        {/* Username */}
         <input
           type="text"
           placeholder="Username"
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-800 focus:outline-none"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
+
+        {/* Email */}
         <input
           type="email"
           placeholder="Email"
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-800 focus:outline-none"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+
+        {/* Password */}
         <input
           type="password"
           placeholder="Password"
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-800 focus:outline-none"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
+        {/* Role selection */}
         <select
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-6 border rounded-lg focus:ring-2 focus:ring-blue-800 focus:outline-none"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         >
           <option value="student">Student</option>
           <option value="teacher">Teacher</option>
         </select>
-        <button className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
+
+        {/* Register button */}
+        <button
+          type="submit"
+          className="w-full bg-blue-800 text-white p-3 rounded-lg font-semibold hover:bg-blue-600 transition"
+        >
           Register
         </button>
+
+        {/* Login redirect */}
+        <p className="text-center text-sm mt-4 text-gray-600">
+          Already have an account?{" "}
+          <span
+            onClick={() => navigate("/login")}
+            className="text-blue-800 font-semibold cursor-pointer hover:underline"
+          >
+            Login
+          </span>
+        </p>
       </form>
     </div>
   );

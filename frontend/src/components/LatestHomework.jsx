@@ -28,21 +28,64 @@ const LatestHomework = () => {
     fetchLatest();
   }, [token]);
 
-  if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
-  if (!homework) return <p className="text-center mt-10">No homework available</p>;
+  if (error)
+    return (
+      <div className="p-4 max-w-lg mx-auto mt-10">
+        <div className="bg-red-100 border border-red-400 text-red-700 p-4 rounded-lg shadow-md text-center">
+          {error}
+        </div>
+      </div>
+    );
+
+  if (!homework)
+    return (
+      <p className="text-center text-gray-600 font-medium mt-10">
+        ⏳ No homework available
+      </p>
+    );
 
   return (
-    <div className="p-4 max-w-lg mx-auto bg-white shadow rounded mt-10">
-      <h2 className="text-xl font-bold mb-2">🆕 Latest Homework</h2>
-      <h3 className="font-semibold">{homework.title}</h3>
-      <p>{homework.description}</p>
-      <p><strong>Deadline:</strong> {new Date(homework.deadline).toLocaleDateString()}</p>
-      <p><strong>Teacher:</strong> {homework.uploadedBy?.username}</p>
-      {homework.fileUrl && (
-        <a href={homework.fileUrl} target="_blank" rel="noreferrer" className="text-blue-600 underline">
-          View File
-        </a>
-      )}
+    <div className="p-6 max-w-lg mx-auto mt-10">
+      <div className="bg-white shadow-lg rounded-xl p-8 text-center">
+        {/* Header */}
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">
+          📘 Latest Homework
+        </h2>
+
+        {/* Content */}
+        <div className="space-y-4 text-gray-700">
+          <p>
+            <span className="font-semibold text-gray-800">Title:</span>{" "}
+            {homework.title}
+          </p>
+          <p>
+            <span className="font-semibold text-gray-800">Description:</span>{" "}
+            {homework.description}
+          </p>
+          <p>
+            <span className="font-semibold text-gray-800">Deadline:</span>{" "}
+            {new Date(homework.deadline).toLocaleDateString()}
+          </p>
+          <p>
+            <span className="font-semibold text-gray-800">Teacher:</span>{" "}
+            {homework.uploadedBy?.username || "Unknown"}
+          </p>
+        </div>
+
+        {/* File Button */}
+        {homework.fileUrl && (
+          <div className="flex justify-center mt-6">
+            <a
+              href={homework.fileUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-all shadow-sm"
+            >
+              📂 View File
+            </a>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
