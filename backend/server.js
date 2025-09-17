@@ -25,7 +25,7 @@ const app = express();
 
 // CORS setup
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://educonnect-frontend-15kg.onrender.com",
   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
   credentials: true,
 };
