@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const HomeworkUpload = () => {
   const [homework, setHomework] = useState(null);
   const [file, setFile] = useState(null);
+  const [message, setMessage] = useState("");
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token"); // must exist
 
   // Fetch latest homework
   useEffect(() => {
     const fetchLatestHomework = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/homework/latest", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         setHomework(res.data);
       } catch (err) {
         console.error("Error fetching latest homework:", err.response?.data || err.message);
-        toast.error("❌ Failed to fetch latest homework");
+        setMessage("Failed to fetch latest homework.");
       }
     };
 
@@ -28,7 +30,7 @@ const HomeworkUpload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file || !homework) {
-      toast.warning("⚠️ Please select a file and ensure homework exists");
+      setMessage("Please select a file and ensure homework exists.");
       return;
     }
 
@@ -47,45 +49,30 @@ const HomeworkUpload = () => {
         }
       );
 
-      toast.success("✅ Homework submitted successfully!");
-      setFile(null);
+      setMessage("Homework submitted successfully!");
     } catch (err) {
       console.error("Error submitting homework:", err.response?.data || err.message);
-      toast.error("❌ Submission failed");
+      setMessage("Submission failed.");
     }
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto mt-10">
-      <div className="bg-white shadow-lg rounded-xl p-6 md:p-8">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          📤 Upload Homework
-        </h2>
-
-        {homework ? (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <p className="text-gray-700 text-center">
-              Latest Homework:{" "}
-              <span className="font-semibold text-gray-900">{homework.title}</span>
-            </p>
-
-            <input
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 transition"
-              required
-            />
-            <button
-              type="submit"
-              className="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg"
-            >
-              Submit Homework
-            </button>
+    <div>
+      <h2>Upload Homework</h2>
+      {homework ? (
+        <div>
+          <p>
+            Latest Homework: <strong>{homework.title}</strong>
+          </p>
+          <form onSubmit={handleSubmit}>
+            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <button type="submit">Upload</button>
           </form>
-        ) : (
-          <p className="text-center text-gray-600">⏳ Loading latest homework...</p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <p>Loading latest homework...</p>
+      )}
+      {message && <p>{message}</p>}
     </div>
   );
 };
