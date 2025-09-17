@@ -18,7 +18,8 @@ const MySubmissions = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        setSubmissions(res.data);
+        // ✅ Reverse the data so newest comes first
+        setSubmissions(res.data.reverse());
       } catch (err) {
         console.error(err);
         setError(err.response?.data?.message || "Failed to load your submissions");
