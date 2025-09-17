@@ -30,12 +30,12 @@ const Register = () => {
       }
 
       // ✅ Show toast for success
-      toast.success("✅ Registered successfully!", { autoClose: 1000 });
+      toast.success("✅ Registered successfully!", { autoClose: 1 });
 
       // Redirect to login after 1 second
       setTimeout(() => {
         navigate("/login");
-      }, 1000);
+      }, 100);
 
     } catch (err) {
       setError("Something went wrong");

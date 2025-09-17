@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { uploadNote } from "../api/notes";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UploadNote = () => {
   const [title, setTitle] = useState("");
@@ -7,7 +9,7 @@ const UploadNote = () => {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
 
-  // ✅ Get user info from localStorage (assuming you save role when login)
+  // ✅ Get user info from localStorage
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleSubmit = async (e) => {
@@ -22,12 +24,16 @@ const UploadNote = () => {
     try {
       const token = localStorage.getItem("token"); // JWT
       const res = await uploadNote(formData, token);
+
       setMessage(res.data.message);
+      toast.success("✅ Notes uploaded successfully!", { autoClose: 1000 }); // <-- Toast added
+
       setTitle("");
       setSubject("");
       setFile(null);
     } catch (error) {
       setMessage("Failed to upload note",error);
+      toast.error("❌ Failed to upload note", { autoClose: 1 }); // optional
     }
   };
 
@@ -74,6 +80,9 @@ const UploadNote = () => {
           Upload
         </button>
       </form>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-center" />
     </div>
   );
 };

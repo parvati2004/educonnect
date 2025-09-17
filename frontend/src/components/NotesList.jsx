@@ -10,7 +10,9 @@ const NotesList = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await getNotes(token);
-        setNotes(res.data);
+
+        //  Reverse so newest notes come first
+        setNotes(res.data.reverse());
       } catch (err) {
         setError("Failed to fetch notes", err);
       }
@@ -45,7 +47,7 @@ const NotesList = () => {
 
               {/* Description */}
               <p className="text-gray-800 font-bold mb-2">
-                Description: <span className="font-normal">{note.subject}</span>
+                Subject: <span className="font-normal">{note.subject}</span>
               </p>
 
               {/* Uploaded By */}
@@ -63,7 +65,7 @@ const NotesList = () => {
                 rel="noopener noreferrer"
                 className="px-3 py-1 text-xs font-bold bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
               >
-                📥 View
+                📥 View/Download
               </a>
             </div>
           ))}

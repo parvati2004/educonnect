@@ -35,7 +35,7 @@ const CreateHomework = () => {
       const data = await res.json();
 
       if (res.ok) {
-        toast.success("✅ Homework created successfully!");
+        toast.success("✅ Homework created successfully!",{ autoClose: 1000 });
         setTitle("");
         setDescription("");
         setDeadline("");

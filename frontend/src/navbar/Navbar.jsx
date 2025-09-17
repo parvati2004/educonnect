@@ -14,7 +14,7 @@ const Navbar = ({ user, setUser }) => {
   };
 
   const renderLinks = (isMobile = false) => {
-    const linkClasses = `text-blue-300 hover:text-blue-100 ${
+    const linkClasses = `text-blue-400 hover:text-blue-100 ${
       isMobile ? "block mb-2" : "mx-2"
     }`;
 

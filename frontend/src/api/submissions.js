@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/submissions";
 
-// ✅ Submit homework (with FormData)
+// Submit homework (with FormData)
 export const submitHomework = async (homeworkId, formData) => {
   const token = localStorage.getItem("token");
 
@@ -20,7 +20,7 @@ export const submitHomework = async (homeworkId, formData) => {
   }
 };
 
-// ✅ Get current user's submissions
+//  Get current user's submissions
 export const getMySubmissions = async () => {
   const token = localStorage.getItem("token");
   try {
@@ -34,7 +34,7 @@ export const getMySubmissions = async () => {
   }
 };
 
-// ✅ Get all submissions (for teacher/admin)
+// Get all submissions (for teacher/admin)
 export const getSubmissions = async () => {
   const token = localStorage.getItem("token");
   try {

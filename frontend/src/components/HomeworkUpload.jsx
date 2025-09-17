@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const HomeworkUpload = () => {
   const [homework, setHomework] = useState(null);
@@ -38,6 +40,9 @@ const HomeworkUpload = () => {
       return;
     }
 
+    // Show toast immediately on click
+    toast.info("Submitting homework...", { autoClose: 1000 });
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -54,10 +59,12 @@ const HomeworkUpload = () => {
       );
 
       setMessage("✅ Homework submitted successfully!");
+      toast.success("Homework submitted successfully!", { autoClose: 1000 });
       setFile(null);
     } catch (err) {
       console.error("Error submitting homework:", err.response?.data || err.message);
       setMessage("❌ Submission failed.");
+      toast.error("Submission failed", { autoClose: 1000 });
     }
   };
 
@@ -93,6 +100,9 @@ const HomeworkUpload = () => {
           <p className="text-sm text-gray-700 mt-3 text-center">{message}</p>
         )}
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-center" />
     </div>
   );
 };
