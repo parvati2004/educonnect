@@ -26,7 +26,7 @@ const CreateHomework = () => {
     if (file) formData.append("file", file);
 
     try {
-      const res = await fetch("http://localhost:5000/api/homework/create", {
+      const res = await fetch("https://educonnect-backend-ao93.onrender.com/api/homework/create", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
