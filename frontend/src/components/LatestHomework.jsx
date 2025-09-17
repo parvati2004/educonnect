@@ -7,6 +7,11 @@ const LatestHomework = () => {
 
   useEffect(() => {
     const fetchLatest = async () => {
+      if (!token) {
+        setError("You must be logged in to view homework.");
+        return;
+      }
+
       try {
         const res = await fetch("http://localhost:5000/api/homework/latest", {
           headers: { Authorization: `Bearer ${token}` },
@@ -25,6 +30,7 @@ const LatestHomework = () => {
         setError("Something went wrong while fetching latest homework");
       }
     };
+
     fetchLatest();
   }, [token]);
 
@@ -47,20 +53,14 @@ const LatestHomework = () => {
   return (
     <div className="p-6 max-w-lg mx-auto mt-10">
       <div className="bg-white shadow-lg rounded-xl p-8 text-center">
-        {/* Header */}
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">
-          📘 Latest Homework
-        </h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">📘 Latest Homework</h2>
 
-        {/* Content */}
         <div className="space-y-4 text-gray-700">
           <p>
-            <span className="font-semibold text-gray-800">Title:</span>{" "}
-            {homework.title}
+            <span className="font-semibold text-gray-800">Title:</span> {homework.title}
           </p>
           <p>
-            <span className="font-semibold text-gray-800">Description:</span>{" "}
-            {homework.description}
+            <span className="font-semibold text-gray-800">Description:</span> {homework.description}
           </p>
           <p>
             <span className="font-semibold text-gray-800">Deadline:</span>{" "}
@@ -72,7 +72,6 @@ const LatestHomework = () => {
           </p>
         </div>
 
-        {/* File Button */}
         {homework.fileUrl && (
           <div className="flex justify-center mt-6">
             <a

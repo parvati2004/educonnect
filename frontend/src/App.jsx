@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./navbar/Navbar";
-
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -18,17 +17,24 @@ import LatestHomework from "./components/LatestHomework";
 import HomeworkUpload from "./components/HomeworkUpload";
 import AllSubmissions from "./components/AllSubmissions";
 import MySubmissions from "./components/MySubmissions";
-import UploadNote from "./components/UploadNote";   // ✅ Teacher-only
-import NotesList from "./components/NotesList";     // ✅ Student-only
+import UploadNote from "./components/UploadNote";
+import NotesList from "./components/NotesList";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
   return (
     <Router>
-      <Navbar />
+      <Navbar user={user} setUser={setUser} />
 
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
 
@@ -66,7 +72,7 @@ function App() {
         </Route>
 
         {/* Fallback */}
-        <Route path="*" element={<Login />} />
+        <Route path="*" element={<Login setUser={setUser} />} />
       </Routes>
     </Router>
   );

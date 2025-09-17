@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -27,7 +29,14 @@ const Register = () => {
         return;
       }
 
-      navigate("/login"); // redirect to login after successful registration
+      // ✅ Show toast for success
+      toast.success("✅ Registered successfully!", { autoClose: 1000 });
+
+      // Redirect to login after 1 second
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+
     } catch (err) {
       setError("Something went wrong");
       console.log(err);
@@ -112,6 +121,9 @@ const Register = () => {
           </span>
         </p>
       </form>
+
+      {/* Toast container */}
+      <ToastContainer position="top-center" />
     </div>
   );
 };

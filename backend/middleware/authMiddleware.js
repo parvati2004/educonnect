@@ -5,9 +5,15 @@ import User from "../models/User.js";
 const protect = async (req, res, next) => {
   let token;
 
+  console.log("Authorization header:", req.headers.authorization); // Debug
+
   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
     try {
       token = req.headers.authorization.split(" ")[1];
+
+      if (!token) {
+        return res.status(401).json({ message: "Not authorized, token missing or malformed" });
+      }
 
       // Verify JWT
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -21,7 +27,7 @@ const protect = async (req, res, next) => {
 
       next();
     } catch (error) {
-      console.error(error);
+      console.error("JWT verification error:", error.message);
       return res.status(401).json({ message: "Not authorized, token failed" });
     }
   } else {
@@ -31,6 +37,7 @@ const protect = async (req, res, next) => {
 
 // Allow only teachers
 const isTeacher = (req, res, next) => {
+  console.log("User role:", req.user?.role);
   if (req.user && req.user.role === "teacher") {
     next();
   } else {
@@ -40,13 +47,12 @@ const isTeacher = (req, res, next) => {
 
 // Allow only students
 const isStudent = (req, res, next) => {
-  console.log("User role:", req.user?.role); // <-- add this
+  console.log("User role:", req.user?.role);
   if (req.user && req.user.role === "student") {
     next();
   } else {
     res.status(403).json({ message: "Access denied. Student only." });
   }
 };
-
 
 export { protect, isTeacher, isStudent };
