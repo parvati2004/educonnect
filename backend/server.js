@@ -24,12 +24,28 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // CORS setup
+// ✅ CORS setup for both local and deployed frontend
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://educonnect-frontend-15kg.onrender.com", // deployed frontend
+];
+
 const corsOptions = {
-  origin: "https://educonnect-frontend-15kg.onrender.com",
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS policy: This origin is not allowed"));
+    }
+  },
   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
   credentials: true,
 };
+
 app.use(cors(corsOptions));
+
 
 // Middleware
 app.use(express.json());
