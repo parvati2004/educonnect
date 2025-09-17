@@ -48,7 +48,7 @@ const HomeworkUpload = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/submissions/${homework._id}/submit`,
+        `https://educonnect-backend-ao93.onrender.com/api/submissions/${homework._id}/submit`,
         formData,
         {
           headers: {
