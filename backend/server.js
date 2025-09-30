@@ -22,9 +22,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
+//"https://educonnect-frontend-15kg.onrender.com"
 const corsOptions = 
-{ origin: "https://educonnect-frontend-15kg.onrender.com",
+{ origin:"http://localhost:5173" ,
    methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
   credentials: true, };
 app.use(cors(corsOptions));
