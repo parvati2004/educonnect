@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/submissions";
+const API_URL = "https://educonnect-backend-ao93.onrender.com/api/submissions";
 
 // Submit homework (with FormData)
 export const submitHomework = async (homeworkId, formData) => {
