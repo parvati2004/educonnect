@@ -14,7 +14,7 @@ const HomeworkUpload = () => {
   useEffect(() => {
     const fetchLatestHomework = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/homework/latest", {
+        const res = await axios.get("https://educonnect-backend-ao93.onrender.com/api/homework/latest", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setHomework(res.data);
@@ -48,7 +48,7 @@ const HomeworkUpload = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/submissions/${homework._id}/submit`,
+        `https://educonnect-backend-ao93.onrender.com/api/submissions/${homework._id}/submit`,
         formData,
         {
           headers: {

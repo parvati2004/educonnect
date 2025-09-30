@@ -23,13 +23,14 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// CORS setup
-const corsOptions = {
-  origin: "http://localhost:5173",
-  methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
-  credentials: true,
-};
+const corsOptions = 
+{ origin: "https://educonnect-frontend-15kg.onrender.com",
+   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
+  credentials: true, };
 app.use(cors(corsOptions));
+
+
+
 
 // Middleware
 app.use(express.json());
