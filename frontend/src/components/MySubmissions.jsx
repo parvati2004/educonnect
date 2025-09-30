@@ -14,7 +14,7 @@ const MySubmissions = () => {
           return;
         }
 
-        const res = await axios.get("https://educonnect-backend-ao93.onrender.com/api/submissions/mine", {
+        const res = await axios.get("http://localhost:5000/api/submissions/mine", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

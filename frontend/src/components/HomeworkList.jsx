@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import HomeworkUpload from "./HomeworkUpload";
 
 const HomeworkList = () => {
   const [homeworks, setHomeworks] = useState([]); // array of homework
@@ -14,7 +13,7 @@ const HomeworkList = () => {
           return;
         }
 
-        const res = await fetch("https://educonnect-backend-ao93.onrender.com/api/homework", {
+        const res = await fetch("http://localhost:5000/api/homework", {
           headers: { Authorization: `Bearer ${token}` },
           credentials: "include",
         });
@@ -92,11 +91,6 @@ const HomeworkList = () => {
                 View File
               </a>
             )}
-
-            {/* No gap above UploadHomework */}
-            <div className="w-full flex justify-center">
-              <HomeworkUpload homeworkId={hw._id} />
-            </div>
           </div>
         ))}
       </div>

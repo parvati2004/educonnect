@@ -13,7 +13,7 @@ const LatestHomework = () => {
       }
 
       try {
-        const res = await fetch("https://educonnect-backend-ao93.onrender.com/api/homework/latest", {
+        const res = await fetch("http://localhost:5000/api/homework/latest", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://educonnect-backend-ao93.onrender.com/api/notes"; // backend base URL
+const API_URL = "http://localhost:5000/api/notes"; // backend base URL
 
 
 export const uploadNote = async (formData, token) => {
