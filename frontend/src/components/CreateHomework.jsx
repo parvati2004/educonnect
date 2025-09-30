@@ -22,7 +22,7 @@ const CreateHomework = () => {
   // Fetch all homework
   const fetchHomework = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/homework", {
+      const res = await fetch("https://educonnect-backend-ao93.onrender.com/api/homework", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -43,8 +43,8 @@ const CreateHomework = () => {
 
     try {
       const url = editingId
-        ? `http://localhost:5000/api/homework/${editingId}`
-        : "http://localhost:5000/api/homework/create";
+        ? `https://educonnect-backend-ao93.onrender.com/api/homework/${editingId}`
+        : "https://educonnect-backend-ao93.onrender.com/api/homework/create";
 
       const method = editingId ? "PUT" : "POST";
 
@@ -78,7 +78,7 @@ const CreateHomework = () => {
   // Delete homework directly (no browser confirm)
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/homework/${id}`, {
+      const res = await fetch(`https://educonnect-backend-ao93.onrender.com/api/homework/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
