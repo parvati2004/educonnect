@@ -13,7 +13,7 @@ const HomeworkList = () => {
           return;
         }
 
-        const res = await fetch("http://localhost:5000/api/homework", {
+        const res = await fetch("https://educonnect-backend-ao93.onrender.com/api/homework", {
           headers: { Authorization: `Bearer ${token}` },
           credentials: "include",
         });
