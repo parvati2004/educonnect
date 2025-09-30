@@ -38,6 +38,7 @@ const Register = () => {
       }, 100);
 
     } catch (err) {
+      console.log(err)
       setError("Something went wrong");
       console.log(err);
     }

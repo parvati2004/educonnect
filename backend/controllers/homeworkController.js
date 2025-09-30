@@ -63,3 +63,56 @@ export const getLatestHomework = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch latest homework", error: error.message });
   }
 };
+
+
+//Update homework
+
+export const updateHomework = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, deadline } = req.body;
+
+    const homework = await Homework.findById(id);
+    if (!homework) return res.status(404).json({ message: "Homework not found" });
+
+    if (homework.uploadedBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "homework_files",
+        resource_type: "auto",
+      });
+      homework.fileUrl = result.secure_url;
+    }
+
+    if (title) homework.title = title;
+    if (description) homework.description = description;
+    if (deadline) homework.deadline = deadline;
+
+    await homework.save();
+    res.json({ message: "Homework updated", homework });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update homework", error: error.message });
+  }
+};
+
+// ✅ Delete homework
+export const deleteHomework = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const homework = await Homework.findById(id);
+    if (!homework) return res.status(404).json({ message: "Homework not found" });
+
+    if (homework.uploadedBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    await homework.deleteOne();
+    res.json({ message: "Homework deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete homework", error: error.message });
+  }
+};
