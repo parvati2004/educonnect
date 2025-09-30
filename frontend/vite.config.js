@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://localhost:5000', // Adjust the target to your backend's URL
+      '/api': 'https://educonnect-backend-ao93.onrender.com', // Adjust the target to your backend's URL
     },
   },
 });
